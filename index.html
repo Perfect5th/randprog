@@ -6,12 +6,23 @@
     <style type="text/css" media="screen">
       .flex {
           display: flex;
-          justify-content: space-between;
-          width: 16em;
+      }
+
+      .flex p {
+          margin-right: 1em;
+          width: 3em;
       }
     </style>
   </head>
   <body>
+    <label for="chord-count">Number of chords</label>
+    <input id="chord-count" name="chord-count" type="number" value="4">
+    <label for="rooted">Start with root chord</label>
+    <input id="rooted" name="rooted" type="checkbox" checked>
+    <label for="inc-dim">Include diminished chords</label>
+    <input id="inc-dim" name="inc-dim" type="checkbox" checked>
+    <button id="regen" type="button">Regenerate</button>
+    <div id="output"></div>
     <noscript>This page is basically only JavaScript, so if you have that turned off go back into your cave, please.</noscript>
     <script type="text/javascript" src="./index.js"></script>
   </body>

@@ -30,12 +30,12 @@ window.addEventListener("DOMContentLoaded", () => {
     }
 
     while (chordCount) {
-        let next = Math.floor(Math.random() * NOTES.length);
-        next = (next + keyI) % NOTES.length;
+        const next = Math.floor(Math.random() * NOTES.length);
+        const nextNote = (next + keyI) % NOTES.length;
 
         if (scale[next] !== null) {
             prog.push(numerals[next]);
-            progChords.push(NOTES[next] + scale[next]);
+            progChords.push(NOTES[nextNote] + scale[next]);
             chordCount--;
         }
     }

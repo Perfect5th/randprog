@@ -16,6 +16,7 @@ window.addEventListener("DOMContentLoaded", () => {
             Db: ROOTS.map(n => n === "F#" ? "Gb" : n),
             Ab: ROOTS,
             Eb: ROOTS,
+            Bb: ROOTS,
             F: ROOTS,
         },
         minor: {

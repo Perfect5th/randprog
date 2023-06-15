@@ -7,7 +7,38 @@ window.addEventListener("DOMContentLoaded", () => {
         major: ["I", null,  "ii",  null, "iii", "IV", null, "V", null, "vi",  null, "viio"],
         minor: ["i", null, "iio", "III",  null, "iv", null, "v", "VI", null, "VII",   null],
     };
-    const NOTES = ["A", "A#", "B", "C", "C#", "D", "D#", "E", "F", "F#", "G", "G#"];
+    const ROOTS = ["A", "Bb", "B", "C", "Db", "D", "Eb", "E", "F", "F#", "G", "Ab"];
+    const ASCALES = {
+        major: {
+            C: ROOTS,
+            G: ROOTS,
+            D: ROOTS.map(n => n === "Db" ? "C#" : n),
+            Db: ROOTS.map(n => n === "F#" ? "Gb" : n),
+            Ab: ROOTS,
+            Eb: ROOTS,
+            F: ROOTS,
+        },
+        minor: {
+            C: ROOTS,
+            G: ROOTS,
+            D: ROOTS,
+            A: ROOTS,
+            E: ROOTS,
+            B: ROOTS.map(n => n === "Db" ? "C#" : n),
+            Eb: ROOTS.map(n => n === "F#" ? "Gb" : (n === "B" ? "Cb" : n)),
+            F: ROOTS,
+        }
+    }
+    ASCALES.major.A = ASCALES.major.D.map(n => n === "Ab" ? "G#" : n);
+    ASCALES.major.E = ASCALES.major.A.map(n => n === "Eb" ? "D#" : n);
+    ASCALES.major.B = ASCALES.major.E.map(n => n === "Bb" ? "A#" : n);
+    ASCALES.major["F#"] = ASCALES.major.B.map(n => n === "F" ? "E#": n);
+    ASCALES.minor["F#"] = ASCALES.minor.B.map(n => n === "Ab" ? "G#" : n);
+    ASCALES.minor["C#"] = ASCALES.minor["F#"].map(n => n === "Eb" ? "D#" : n);
+    ASCALES.minor.Db = ASCALES.minor["C#"];
+    ASCALES.minor["G#"] = ASCALES.minor["C#"].map(n => n === "Bb" ? "A#" : n);
+    ASCALES.minor.Ab = ASCALES.minor["G#"];
+    ASCALES.minor.Bb = ASCALES.minor.Eb;
 
     const rootedCheckbox = document.querySelector("#rooted");
     const chordCountInput = document.querySelector("#chord-count");
@@ -22,8 +53,9 @@ window.addEventListener("DOMContentLoaded", () => {
         const scaleKey = scaleKeys[Math.floor(Math.random() * scaleKeys.length)];
         const scale = SCALES[scaleKey];
         const numerals = NUMERALS[scaleKey];
-        const keyI = Math.floor(Math.random() * NOTES.length);
-        const root = NOTES[keyI];
+        const keyI = Math.floor(Math.random() * ROOTS.length);
+        const ascale = ASCALES[scaleKey][ROOTS[keyI]];
+        const root = ascale[keyI];
 
         const prog = [];
         const progChords = [];
@@ -36,8 +68,8 @@ window.addEventListener("DOMContentLoaded", () => {
         }
 
         while (chordCountdown) {
-            const next = Math.floor(Math.random() * NOTES.length);
-            const nextNote = (next + keyI) % NOTES.length;
+            const next = Math.floor(Math.random() * ascale.length);
+            const nextNote = (next + keyI) % ascale.length;
 
             if (scale[next] === null) {
                 continue;
@@ -48,7 +80,7 @@ window.addEventListener("DOMContentLoaded", () => {
             }
 
             prog.push(numerals[next]);
-            progChords.push(NOTES[nextNote] + scale[next]);
+            progChords.push(ascale[nextNote] + scale[next]);
             chordCountdown--;
         }
 

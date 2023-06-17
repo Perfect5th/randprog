@@ -4,8 +4,14 @@
     <meta charset="UTF-8">
     <title>Which Fucking Chord Progression Should I Use?</title>
     <style type="text/css" media="screen">
+      body {
+          max-height: 100vh;
+          max-width: 100vw;
+      }
+      
       .flex {
           display: flex;
+          flex-wrap: wrap;
       }
 
       .flex p {
@@ -24,6 +30,9 @@
     <button id="regen" type="button">Regenerate</button>
     <div id="output"></div>
     <noscript>This page is basically only JavaScript, so if you have that turned off go back into your cave, please.</noscript>
+    <script type="text/javascript" src="./music.js"></script>
+    <script type="text/javascript" src="./ui.js"></script>
+    <script type="text/javascript" src="./business.js"></script>
     <script type="text/javascript" src="./index.js"></script>
   </body>
 </html>

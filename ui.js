@@ -3,6 +3,7 @@ const ui = {
         rooted: document.querySelector("#rooted").checked,
         includeDiminished: document.querySelector("#inc-dim").checked,
         chordCount: parseInt(document.querySelector("#chord-count").value),
+        jazziness: parseInt(document.querySelector("#jazziness").value),
     }),
 
     createChordElement: (progIndex, chord) => {

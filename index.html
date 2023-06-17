@@ -7,6 +7,11 @@
       body {
           max-height: 100vh;
           max-width: 100vw;
+          padding: 1em;
+      }
+
+      .form-line {
+          margin-bottom: 0.5em;
       }
       
       .flex {
@@ -21,12 +26,26 @@
     </style>
   </head>
   <body>
-    <label for="chord-count">Number of chords</label>
-    <input id="chord-count" name="chord-count" type="number" value="4">
-    <label for="rooted">Start with root chord</label>
-    <input id="rooted" name="rooted" type="checkbox" checked>
-    <label for="inc-dim">Include diminished chords</label>
-    <input id="inc-dim" name="inc-dim" type="checkbox" checked>
+    <div class="form-line">
+      <label for="chord-count">Number of chords</label>
+      <input id="chord-count" name="chord-count" type="number" value="4">
+    </div>
+
+    <div class="form-line">
+      <label for="rooted">Start with root chord</label>
+      <input id="rooted" name="rooted" type="checkbox" checked>
+    </div>
+
+    <div class="form-line">
+      <label for="inc-dim">Include diminished chords</label>
+      <input id="inc-dim" name="inc-dim" type="checkbox" checked>
+    </div>
+
+    <div class="form-line">
+      <label for="jazziness" title="How likely each chord in the progression is to be jazzy">Jazziness</label>
+      <input id="jazziness" name="jazziness" type="range" value="0">
+    </div>
+
     <button id="regen" type="button">Regenerate</button>
     <div id="output"></div>
     <noscript>This page is basically only JavaScript, so if you have that turned off go back into your cave, please.</noscript>

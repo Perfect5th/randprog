@@ -8,10 +8,46 @@ const business = {
 
     selectRandIndex: (arr) => business.randInt(arr.length),
 
+    JAZZY_BOIS: {
+        899: "7",
+        949: "7b5",
+        999: "9",
+        1000: "7#9",
+    },
+    getJazzyBoi: (manualRoll) => {
+        const numBois = Object.keys(business.JAZZY_BOIS).map(k => parseInt(k));
+        const roll = manualRoll || business.randInt(Math.max(...numBois));
+
+        for (const boi of numBois) {
+            if (boi > roll) {
+                return business.JAZZY_BOIS[boi];
+            }
+        }
+
+        // This shouldn't happen, but failsafe just because.
+        return business.JAZZY_BOIS[numBois[0]];
+    },
+
+    jazzify: (index, chord, jazziness) => {
+        const roll = business.randInt(100);
+
+        if (roll < jazziness) {
+            const jazzyBoi = business.getJazzyBoi();
+
+            return {
+                index: index + jazzyBoi,
+                chord: chord + jazzyBoi,
+            };
+        }
+
+        return {index, chord};
+    },
+
     generateChordsForScale: (
         rooted,
         includeDiminished,
         chordCount,
+        jazziness,
         keyI,
         scaleKey,
     ) => {
@@ -24,8 +60,14 @@ const business = {
         let chordCountdown = chordCount;
 
         if (rooted) {
-            progIndexes.push(numerals[0]);
-            progChords.push(aScale[keyI] + scale[0]);
+            const {index, chord} = business.jazzify(
+                numerals[0],
+                aScale[keyI] + scale[0],
+                jazziness,
+            );
+
+            progIndexes.push(index);
+            progChords.push(chord);
             chordCountdown--;
         }
 
@@ -42,15 +84,21 @@ const business = {
                 continue;
             }
 
-            progIndexes.push(numerals[nextI]);
-            progChords.push(aScale[nextNoteI] + next);
+            const {index, chord} = business.jazzify(
+                numerals[nextI],
+                aScale[nextNoteI] + next,
+                jazziness,
+            );
+
+            progIndexes.push(index);
+            progChords.push(chord);
             chordCountdown--;
         }
 
         return {progIndexes, progChords};
     },
 
-    generateRandProg: (rooted, includeDiminished, chordCount) => {
+    generateRandProg: (rooted, includeDiminished, chordCount, jazziness) => {
         const keyI = business.selectRandIndex(music.ROOTS);
         const scaleKey = business.selectRandKey(music.SCALES);
 
@@ -61,6 +109,7 @@ const business = {
                 rooted,
                 includeDiminished,
                 chordCount,
+                jazziness,
                 keyI,
                 scaleKey,
             ),

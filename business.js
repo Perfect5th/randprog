@@ -28,7 +28,7 @@ const business = {
         return business.JAZZY_BOIS[numBois[0]];
     },
 
-    jazzify: (index, chord, jazziness) => {
+    jazzify: (jazziness, [index, chord]) => {
         const roll = business.randInt(100);
 
         if (roll < jazziness) {
@@ -40,79 +40,73 @@ const business = {
             };
         }
 
-        return {index, chord};
+        return [index, chord];
     },
 
-    generateChordsForScale: (
+    generateChord: (aScale, keyI, scale, includeDiminished, numerals) => {
+        let next = null;
+        let nextI = null;
+
+        while (next === null) {
+            nextI = business.randInt(aScale.length);
+            next = scale[nextI];
+
+            if (!includeDiminished && next === "dim") {
+                next = null;
+            }
+        }
+
+        const nextNoteI = (nextI + keyI) % aScale.length;
+
+        return [numerals[nextI], aScale[nextNoteI] + next];
+    },
+
+    generateChordsForScale: ({
         rooted,
         includeDiminished,
         chordCount,
         jazziness,
         keyI,
         scaleKey,
-    ) => {
+    }) => {
         const aScale = music.ASCALES[scaleKey][music.ROOTS[keyI]];
         const scale = music.SCALES[scaleKey];
         const numerals = music.NUMERALS[scaleKey];
 
-        const progIndexes = [];
-        const progChords = [];
         let chordCountdown = chordCount;
+        const chords = [];
 
         if (rooted) {
-            const {index, chord} = business.jazzify(
-                numerals[0],
-                aScale[keyI] + scale[0],
+            chords.push(business.jazzify(
                 jazziness,
-            );
-
-            progIndexes.push(index);
-            progChords.push(chord);
+                [numerals[0], aScale[keyI] + scale[0]],
+            ));
             chordCountdown--;
         }
 
-        while (chordCountdown) {
-            const nextI = business.randInt(aScale.length);
-            const nextNoteI = (nextI + keyI) % aScale.length;
-            const next = scale[nextI];
-
-            if (next === null) {
-                continue;
-            }
-
-            if (!includeDiminished && next === "dim") {
-                continue;
-            }
-
-            const {index, chord} = business.jazzify(
-                numerals[nextI],
-                aScale[nextNoteI] + next,
+        for (let i = 0; i < chordCountdown; i++) {
+            chords.push(business.jazzify(
                 jazziness,
-            );
-
-            progIndexes.push(index);
-            progChords.push(chord);
-            chordCountdown--;
+                business.generateChord(aScale, keyI, scale, includeDiminished, numerals),
+            ));
         }
 
-        return {progIndexes, progChords};
+        return chords;
     },
 
-    generateRandProg: (rooted, includeDiminished, chordCount, jazziness) => {
+    // Selects a random key and scale and chord progression
+    generateRandProg: (settings) => {
         const keyI = business.selectRandIndex(music.ROOTS);
         const scaleKey = business.selectRandKey(music.SCALES);
 
         return {
             root: music.getRoot(scaleKey, keyI),
             scale: scaleKey,
-            ...business.generateChordsForScale(
-                rooted,
-                includeDiminished,
-                chordCount,
-                jazziness,
+            chords: business.generateChordsForScale({
                 keyI,
                 scaleKey,
-            ),
+                ...settings,
+            }),
         }
     },
 };

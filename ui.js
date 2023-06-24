@@ -1,42 +1,55 @@
+// Functions for interacting with the UI.
+// The general ethos here is to stay simple, pull the values from the
+// input elements and parse them to the appropriate types.
+
 const ui = {
+    getCheckboxValue: (id) => document.querySelector(id).checked,
+    getIntValue: (id) => parseInt(document.querySelector(id).value),
+
+    // Marshalls the input values into an object.
     getSettings: () => ({
-        rooted: document.querySelector("#rooted").checked,
-        includeDiminished: document.querySelector("#inc-dim").checked,
-        chordCount: parseInt(document.querySelector("#chord-count").value),
-        jazziness: parseInt(document.querySelector("#jazziness").value),
+        rooted: ui.getCheckboxValue("#rooted"),
+        includeDiminished: ui.getCheckboxValue("#inc-dim"),
+        chordCount: ui.getIntValue("#chord-count"),
+        jazziness: ui.getIntValue("#jazziness"),
     }),
 
-    createChordElement: (progIndex, chord) => {
+    // Creates the DOM element representing a single chord in the
+    // progression, via its name and scale interval, then folds it into
+    foldChordElement: (containerElement, [interval, chord]) => {
         const div = document.createElement("div");
-        const progP = document.createElement("p");
+        const intervalP = document.createElement("p");
         const chordP = document.createElement("p");
 
-        progP.innerText = progIndex;
+        intervalP.innerText = interval;
         chordP.innerText = chord;
-        div.append(progP, chordP);
+        div.append(intervalP, chordP);
+        containerElement.append(div);
 
-        return div;
+        return containerElement;
     },
 
-    clearProgression: (outputElement) => {
-        Array.from(outputElement.childNodes).forEach(c => c.remove());
-    },
-
-    renderProgression: (outputElement, scale, progIndexes, chords) => {
+    // Given a selected scale, array of chord intervals, and array of
+    // chord names, produces a title and array of elements per-chord and
+    // adds them to `outputElement`.
+    renderProgression: ({root, scale, chords}) => {
         const leadP = document.createElement("p");
         const scaleP = document.createElement("p");
-        const chordsContainer = document.createElement("div");
-        const chordElements = progIndexes.map((p, i) => ui.createChordElement(p, chords[i]));
+        const chordsContainer = chords.reduce(
+            ui.foldChordElement,
+            document.createElement("div"),
+        );
 
         leadP.innerText = "You should write a song using this fucking chord progression.";
-        scaleP.innerText = scale;
+        scaleP.innerText = `${root} ${scale}`;
         chordsContainer.classList.add("flex");
-        chordsContainer.append(...chordElements);
-        outputElement.append(leadP, scaleP, chordsContainer);
+
+        return [leadP, scaleP, chordsContainer];
     },
 
-    rerenderProgression: (outputElement, ...rest) => {
-        ui.clearProgression(outputElement);
-        ui.renderProgression(outputElement, ...rest)
+    // Wipes `outputElement` and refills it with a new set of chords.
+    rerenderProgression: (outputElement, progression) => {
+        Array.from(outputElement.childNodes).forEach(c => c.remove());
+        outputElement.append(...ui.renderProgression(progression));
     },
 };

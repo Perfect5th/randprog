@@ -15,6 +15,8 @@ const business = {
         1000: "7#9",
     },
     getJazzyBoi: (manualRoll) => {
+        // Selects a value from `JAZZY_BOIS` based on a roll against the
+        // keys of that object.
         const numBois = Object.keys(business.JAZZY_BOIS).map(k => parseInt(k));
         const roll = manualRoll || business.randInt(Math.max(...numBois));
 
@@ -29,6 +31,8 @@ const business = {
     },
 
     jazzify: (jazziness, [index, chord]) => {
+        // Randomly augments a chord with a `JAZZY_BOI` based on a role
+        // against `jazziness` (int).
         const roll = business.randInt(100);
 
         if (roll < jazziness) {
@@ -44,6 +48,8 @@ const business = {
     },
 
     generateChord: (aScale, keyI, scale, includeDiminished, numerals) => {
+        // Produce a chord from the scale `aScale`. Retrying if the
+        // chord is diminished and `includeDiminished` is false.
         let next = null;
         let nextI = null;
 
@@ -69,6 +75,13 @@ const business = {
         keyI,
         scaleKey,
     }) => {
+        // Generates a progression of `chordCount` chords in the key of
+        // `music.ROOTS[keyI]` on the `music.SCALES[scaleKey]` scale.
+        //
+        // `jazziness` (int) in range [0-100] that determines how likely
+        //     a given chord is to be `jazzified`.
+        // `includeDiminished` (boolean) determines whether diminished
+        //     chords are allowed in the progression.
         const aScale = music.ASCALES[scaleKey][music.ROOTS[keyI]];
         const scale = music.SCALES[scaleKey];
         const numerals = music.NUMERALS[scaleKey];
@@ -94,8 +107,8 @@ const business = {
         return chords;
     },
 
-    // Selects a random key and scale and chord progression
     generateRandProg: (settings) => {
+        // Selects a random key and scale and chord progression
         const keyI = business.selectRandIndex(music.ROOTS);
         const scaleKey = business.selectRandKey(music.SCALES);
 

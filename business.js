@@ -20,14 +20,7 @@ const business = {
         const numBois = Object.keys(business.JAZZY_BOIS).map(k => parseInt(k));
         const roll = manualRoll || business.randInt(Math.max(...numBois));
 
-        for (const boi of numBois) {
-            if (boi > roll) {
-                return business.JAZZY_BOIS[boi];
-            }
-        }
-
-        // This shouldn't happen, but failsafe just because.
-        return business.JAZZY_BOIS[numBois[0]];
+        return business.JAZZY_BOIS[numBois.find(b => b > roll)];
     },
 
     jazzify: (jazziness, [index, chord]) => {
@@ -38,10 +31,7 @@ const business = {
         if (roll < jazziness) {
             const jazzyBoi = business.getJazzyBoi();
 
-            return {
-                index: index + jazzyBoi,
-                chord: chord + jazzyBoi,
-            };
+            return [index + jazzyBoi, chord + jazzyBoi];
         }
 
         return [index, chord];

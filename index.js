@@ -13,6 +13,14 @@ window.addEventListener("DOMContentLoaded", () => {
     };
 
     document.querySelector("#regen").addEventListener("click", generate);
+    document.querySelectorAll(".display-toggler").forEach((toggler) => {
+        toggler.addEventListener("click", () => ui.toggleDisplay(toggler));
+    });
+
+    const chordCheckboxes = document.querySelectorAll(".chord-type");
+    chordCheckboxes.forEach((chordCheckbox) => {
+        chordCheckbox.addEventListener("click", () => ui.showSelectedChords(chordCheckboxes));
+    });
 
     generate();
 });

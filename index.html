@@ -23,6 +23,23 @@
           margin-right: 1em;
           width: 3em;
       }
+
+      .chord-types {
+          display: flex;
+          flex-wrap: wrap;
+          max-width: 30em;
+      }
+
+      .chord-type {
+          width: 5em;
+      }
+
+      .display-toggler {
+          font-size: 0.7em;
+          color: blue;
+          cursor: pointer;
+          margin-left: 1em;
+      }
     </style>
   </head>
   <body>
@@ -41,8 +58,164 @@
       <input id="inc-dim" name="inc-dim" type="checkbox" checked>
     </div>
 
+    <p>
+      Chord types to include: <span id="checked-chords">maj m</span>
+      <span
+        class="display-toggler"
+        data-target="chord-types"
+        data-display-type="flex"
+        data-alt-text="Show Less"
+      >Show More</span>
+    </p>
+    <div id="chord-types" class="form-line chord-types" style="display: none;">
+      <div class="chord-type">
+        <input id="chord-maj" name="chord-maj" type="checkbox" checked>
+        <label for="chord-maj">maj</label>
+      </div>
+
+      <div class="chord-type">
+        <input id="chord-m" name="chord-m" type="checkbox" checked>
+        <label for="chord-m">m</label>
+      </div>
+
+      <div class="chord-type">
+        <input id="chord-7" name="chord-7" type="checkbox">
+        <label for="chord-7">7</label>
+      </div>
+
+      <div class="chord-type">
+        <input id="chord-m7" name="chord-m7" type="checkbox">
+        <label for="chord-m7">m7</label>
+      </div>
+
+      <div class="chord-type">
+        <input id="chord-maj7" name="chord-maj7" type="checkbox">
+        <label for="chord-maj7">maj7</label>
+      </div>
+
+      <div class="chord-type">
+        <input id="chord-mM7" name="chord-mM7" type="checkbox">
+        <label for="chord-mM7">mM7</label>
+      </div>
+
+      <div class="chord-type">
+        <input id="chord-6" name="chord-6" type="checkbox">
+        <label for="chord-6">6</label>
+      </div>
+
+      <div class="chord-type">
+        <input id="chord-m6" name="chord-m6" type="checkbox">
+        <label for="chord-m6">m6</label>
+      </div>
+
+      <div class="chord-type">
+        <input id="chord-6/9" name="chord-6/9" type="checkbox">
+        <label for="chord-6/9">6/9</label>
+      </div>
+
+      <div class="chord-type">
+        <input id="chord-5" name="chord-5" type="checkbox">
+        <label for="chord-5">5</label>
+      </div>
+
+      <div class="chord-type">
+        <input id="chord-9" name="chord-9" type="checkbox">
+        <label for="chord-9">9</label>
+      </div>
+
+      <div class="chord-type">
+        <input id="chord-m9" name="chord-m9" type="checkbox">
+        <label for="chord-m9">m9</label>
+      </div>
+
+      <div class="chord-type">
+        <input id="chord-maj9" name="chord-maj9" type="checkbox">
+        <label for="chord-maj9">maj9</label>
+      </div>
+
+      <div class="chord-type">
+        <input id="chord-11" name="chord-11" type="checkbox">
+        <label for="chord-11">11</label>
+      </div>
+
+      <div class="chord-type">
+        <input id="chord-m11" name="chord-m11" type="checkbox">
+        <label for="chord-m11">m11</label>
+      </div>
+
+      <div class="chord-type">
+        <input id="chord-13" name="chord-13" type="checkbox">
+        <label for="chord-13">13</label>
+      </div>
+
+      <div class="chord-type">
+        <input id="chord-m13" name="chord-m13" type="checkbox">
+        <label for="chord-m13">m13</label>
+      </div>
+
+      <div class="chord-type">
+        <input id="chord-maj13" name="chord-maj13" type="checkbox">
+        <label for="chord-maj13">maj13</label>
+      </div>
+
+      <div class="chord-type">
+        <input id="chord-add2" name="chord-add2" type="checkbox">
+        <label for="chord-add2">add2</label>
+      </div>
+
+      <div class="chord-type">
+        <input id="chord-add9" name="chord-add9" type="checkbox">
+        <label for="chord-add9">add9</label>
+      </div>
+
+      <div class="chord-type">
+        <input id="chord-7b5" name="chord-7b5" type="checkbox">
+        <label for="chord-7b5">7b5</label>
+      </div>
+
+      <div class="chord-type">
+        <input id="chord-7#5" name="chord-7#5" type="checkbox">
+        <label for="chord-7#5">7#5</label>
+      </div>
+
+      <div class="chord-type">
+        <input id="chord-sus4" name="chord-sus4" type="checkbox">
+        <label for="chord-sus4">sus4</label>
+      </div>
+
+      <div class="chord-type">
+        <input id="chord-sus2" name="chord-sus2" type="checkbox">
+        <label for="chord-sus2">sus2</label>
+      </div>
+
+      <div class="chord-type">
+        <input id="chord-dim" name="chord-dim" type="checkbox">
+        <label for="chord-dim">dim</label>
+      </div>
+
+      <div class="chord-type">
+        <input id="chord-dim7" name="chord-dim7" type="checkbox">
+        <label for="chord-dim7">dim7</label>
+      </div>
+
+      <div class="chord-type">
+        <input id="chord-m7b5" name="chord-m7b5" type="checkbox">
+        <label for="chord-m7b5">m7b5</label>
+      </div>
+
+      <div class="chord-type">
+        <input id="chord-aug" name="chord-aug" type="checkbox">
+        <label for="chord-aug">aug</label>
+      </div>
+
+      <div class="chord-type">
+        <input id="chord-aug7" name="chord-aug7" type="checkbox">
+        <label for="chord-aug7">aug7</label>
+      </div>
+    </div>
+
     <div class="form-line">
-      <label for="jazziness" title="How likely each chord in the progression is to be jazzy">Jazziness</label>
+      <label for="jazziness" title="How likely each chord in the progression is to be 'weird'">Jazziness</label>
       <input id="jazziness" name="jazziness" type="range" value="0">
     </div>
 
